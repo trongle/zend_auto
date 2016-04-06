@@ -8,3 +8,6 @@
 	<input type="number" id="max" name="max" class="form-control" />
 </div>
 
+<div class="form-group col-md-12">
+	Inclusive: <input type="checkbox" id="inclusive" name="inclusive" />
+</div>

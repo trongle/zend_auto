@@ -113,6 +113,21 @@
 				    
 				    <!-- template validate option -->
 				    <div class="col-md-12 validate-template hide">
+    
+                        <div class="form-group col-md-6">
+                        	<label for="min">min:</label>
+                        	<input type="number" id="min" name="min" class="form-control" />
+                        </div>
+                            
+                        <div class="form-group col-md-6">
+                        	<label for="min">max:</label>
+                        	<input type="number" id="max" name="max" class="form-control" />
+                        </div>                              
+					                                                 
+                        <div class="form-group col-md-12">	   
+                        	 <button class="btn btn-primary" id="accept">Accept</button>
+                        	 <button class="btn btn-info" id="cancel">Cancel</button>		        			    
+                        </div>
 					    
 				    </div>    
 				    
@@ -121,7 +136,7 @@
 				 <div class="col-md-4">
 				 	<div class="form-group ">
 				 		<label>&nbsp;</label><br/>
-				    	<button class="btn btn-primary">Set validate</button>
+				    	<button class="btn btn-primary" id="setValidate">Set validate</button>
 				    </div>
 				 </div> 
 				 
@@ -154,17 +169,27 @@
 			changeIdInput(nameElement);			
 		})
 		
+		$("#setValidate").on("click",function(){
+		    var validateValue = $("#validateElement :selected").val();
+		    var validateName = $("#validateElement :selected").text();
+		   
+		    var valString = '<li><a href="#' + validateValue + '">' + validateName + '</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>';
+		    $("#validateList").append(valString);
+		})
+		
 		$("#validateList li a").on('click',function(){
-			var fileName = $(this).attr("href");
-			fileName = fileName.replace('#','') + '.html';	
+// 			var fileName = $(this).attr("href");
+// 			fileName = fileName.replace('#','') + '.html';	
 			var url = '<?php echo  $this->url('code/default',array('controller' => 'index', 'action' => 'loadTemplate')) ?>';
 
-			$.get(url,function(data){
-				console.log(data);
-			})
-			console.log(templateValidate);
-			//showValidateTemplate(this);
+// 			$.get(url,function(data){
+// 				console.log(data);
+// 			})
+// 			console.log(templateValidate);
+			showValidateTemplate(this);
 		})
+		
+		
 		
 		$("#accept,#cancel").on('click',function(){
 			hideValidateTemplate();
