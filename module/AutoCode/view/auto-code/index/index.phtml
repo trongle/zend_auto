@@ -107,8 +107,8 @@
 				    </div>
 				    
 				    <ul id="validateList">
-				    	<li><a href="#stringlength">StringLength</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>
-				    	<li><a href="#notempty">NotEmpty</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>
+				    	<li><a class="show-option-validate" href="#stringlength">StringLength</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>
+				    	<li><a class="show-option-validate" href="#notempty">NotEmpty</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>
 				    </ul>
 				    
 				    <!-- template validate option -->
@@ -173,11 +173,15 @@
 		    var validateValue = $("#validateElement :selected").val();
 		    var validateName = $("#validateElement :selected").text();
 		   
-		    var valString = '<li><a href="#' + validateValue + '">' + validateName + '</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>';
+		    var valString = '<li><a class="show-option-validate" href="#' + validateValue + '">' + validateName + '</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>';
 		    $("#validateList").append(valString);
+
+		    $(".show-option-validate").on('click',function(){
+				showValidateTemplate(this);
+			})
 		})
 		
-		$("#validateList li a").on('click',function(){
+		$(".show-option-validate").on('click',function(){
 // 			var fileName = $(this).attr("href");
 // 			fileName = fileName.replace('#','') + '.html';	
 			var url = '<?php echo  $this->url('code/default',array('controller' => 'index', 'action' => 'loadTemplate')) ?>';
