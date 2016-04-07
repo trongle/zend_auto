@@ -1,12 +1,8 @@
-<?php
-/**
- * This makes our life easier when dealing with paths. Everything is relative
- * to the application root now.
- */
+<?php 
 include_once "define.php";
 include_once PATH_LIBRARY."Zend/Loader/AutoloaderFactory.php";
-chdir(dirname(__DIR__));
 
+chdir(dirname(__DIR__));
 if(!class_exists("Zend\Loader\AutoloaderFactory")){
 	die(" server is busy now !");
 }
@@ -14,8 +10,19 @@ if(!class_exists("Zend\Loader\AutoloaderFactory")){
 Zend\Loader\AutoLoaderFactory::Factory(array(
 	"Zend\Loader\StandardAutoloader" => array(
 		"autoregister_zf" => true,
+		"namespaces" => array(
+			// "ZendVN"           => PATH_LIBRARY."ZendVN",
+			// "PHPImageWorkshop" => PATH_VENDOR."PHPImageWorkshop",
+			// "Block"			   => PATH_APPLICATION."/block",
+		),
+		"prefixes" => array(
+			// "HTMLPurifier" => PATH_VENDOR."HTMLPurifier"
+		)
 	)
 ));
 
-// Run the application!
-Zend\Mvc\Application::init(require 'config/application.config.php')->run();
+$config = require "config/application.config.php";
+
+Zend\Mvc\Application::init($config)->run();
+
+?>

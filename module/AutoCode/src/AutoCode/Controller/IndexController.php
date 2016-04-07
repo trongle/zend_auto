@@ -11,23 +11,35 @@ namespace AutoCode\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 class IndexController extends AbstractActionController
 {
     public function indexAction()
     {
+        $validateTable   = $this->getServiceLocator()->get('ValidateTable');
+        
+        $validateElement = $validateTable->listItem();
 
+        return new ViewModel([
+            'validateElement' => $validateElement
+        ]);
     }
     
     public function loadTemplateAction(){   
         if($this->request->isXmlHttpRequest()){
-           echo "<h1>" . __METHOD__. "</h1>";
-           return new JsonModel(array('string' => 'test json'));
+            $fileName = $this->params()->fromQuery('fileName');
+            $templateValidate = file_get_contents(PATH_PUBLIC . 'html/' . $fileName);
+            // $templateValidate = PATH_PUBLIC . '/html/' . $fileName;
+            return new JsonModel(array(
+                'template' => $templateValidate
+            ));
+        }else{
+            echo "not permission";
         }
+
+
         
-        echo  'Not permision';
-        
-        return false;
     }
 
    

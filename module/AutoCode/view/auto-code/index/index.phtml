@@ -99,37 +99,36 @@
 				 	<div class="form-group">
 				 		<label for="validateElement">Validate</label><br/>
 				    	<select name="validateElement" id="validateElement" class="form-control">
-				    		<option value="stringlength">StringLength</option>
-				    		<option value="notempty">NotEmpty</option>
+				    		<?php
+				    		 // echo $this->selectBoxOfListValidate($this->validateList) ;
+				    		 	$list = "";
+				    		 	foreach($this->validateElement as $vali){
+				    		 		$list .= '<option value="'. strtolower($vali['name']) .'">'. $vali['name'] .'</option>';
+				    		 	}
+				    		 	echo $list;
+				    		 ?>
+				    		<!-- <option value="notempty">NotEmpty</option>
 				    		<option value="emailaddress">EmailAdrress</option>
-				    		<option value="between">Between</option>
+				    		<option value="between">Between</option> -->
 				    	</select>
 				    </div>
 				    
+
 				    <ul id="validateList">
-				    	<li><a class="show-option-validate" href="#stringlength">StringLength</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>
-				    	<li><a class="show-option-validate" href="#notempty">NotEmpty</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>
+				    	
 				    </ul>
 				    
 				    <!-- template validate option -->
 				    <div class="col-md-12 validate-template hide">
-    
-                        <div class="form-group col-md-6">
-                        	<label for="min">min:</label>
-                        	<input type="number" id="min" name="min" class="form-control" />
-                        </div>
-                            
-                        <div class="form-group col-md-6">
-                        	<label for="min">max:</label>
-                        	<input type="number" id="max" name="max" class="form-control" />
-                        </div>                              
+    					<div id="showtemplate"></div>              
 					                                                 
                         <div class="form-group col-md-12">	   
                         	 <button class="btn btn-primary" id="accept">Accept</button>
                         	 <button class="btn btn-info" id="cancel">Cancel</button>		        			    
                         </div>
 					    
-				    </div>    
+				    </div>  
+				    <!-- END template validate option -->  
 				    
 				 </div>
 				 
@@ -156,7 +155,7 @@
 	</div>
 	
 </div>
-
+<?php $url = $this->url('code/default',array('action' => 'loadTemplate')) ?>
 <script type="text/javascript">
 	$(document).ready(function(){
 		var nameElement,typeElement;
@@ -171,26 +170,37 @@
 		
 		$("#setValidate").on("click",function(){
 		    var validateValue = $("#validateElement :selected").val();
-		    var validateName = $("#validateElement :selected").text();
+		    var validateName  = $("#validateElement :selected").text();
 		   
 		    var valString = '<li><a class="show-option-validate" href="#' + validateValue + '">' + validateName + '</a> <span class="removeVal glyphicon glyphicon-remove"></span> <i>Lorem ipsum dolor sit amet.</i></li>';
 		    $("#validateList").append(valString);
 
 		    $(".show-option-validate").on('click',function(){
-				showValidateTemplate(this);
+		    	var fileName = $(this).attr("href");
+				fileName = fileName.replace('#','') + '.php';	
+				var url = "<?php echo $url ?>";
+
+				$.get(url,{fileName : fileName},function(data){
+					$("#showtemplate").empty();
+					$("#showtemplate").html(data.template);
+					showValidateTemplate('.show-option-validate');
+				})
 			})
 		})
 		
 		$(".show-option-validate").on('click',function(){
-// 			var fileName = $(this).attr("href");
-// 			fileName = fileName.replace('#','') + '.html';	
-			var url = '<?php echo  $this->url('code/default',array('controller' => 'index', 'action' => 'loadTemplate')) ?>';
+			var fileName = $(this).attr("href");
+			fileName = fileName.replace('#','') + '.php';	
+			var url = "<?php echo $url ?>";
 
-// 			$.get(url,function(data){
-// 				console.log(data);
-// 			})
-// 			console.log(templateValidate);
-			showValidateTemplate(this);
+			$.get(url,{fileName : fileName},function(data){
+			
+				$("#showtemplate").empty();
+				$("#showtemplate").html(data.template);
+				showValidateTemplate('.show-option-validate');
+			})
+			// console.log(templateValidate);
+			
 		})
 		
 		
